@@ -20,7 +20,17 @@ const reducer = (state = defaultState, action) => {
   }
 };
 
-const store = redux.createStore(reducer);
+// second argument is for redux dev tools
+const store = redux.createStore(reducer, redux.compose(
+  window.devToolsExtension ? window.devToolsExtension() : f => f
+));
+
+//Subscribe to changes
+store.subscribe(() => {
+  const state = store.getState();
+  console.log('name is ', state.searchText);
+  document.getElementById('app').innerHTML = state.searchText;
+});
 
 const currentState = store.getState();
 
@@ -30,6 +40,10 @@ const action = {
   type:'CHANGE_SEACRH_TEXT',
   searchText: 'new searchText'
 }
+const newAction = {
+  type:'CHANGE_SEACRH_TEXT',
+  searchText: 'latest searchText'
+}
 
 store.dispatch(action);
-console.log('searchText shoud be new searchText', store.getState().searchText);
+store.dispatch(newAction)
