@@ -54,6 +54,9 @@ const oldRseducer = (state = stateDefault, action) => {
   }
 };
 
+// Name reducer and action generators
+//-----------------------------------
+
 const nameReducer = (state='Anonymous', action) => {
   switch(action.type) {
     case 'CHANGE_NAME':
@@ -62,6 +65,15 @@ const nameReducer = (state='Anonymous', action) => {
   }
 }
 
+const changeName = (name) => {
+  return {
+    type: 'CHANGE_NAME',
+    name
+  }
+}
+
+// Hobbies reducer and action generators
+//-----------------------------------
 const hobbiesReducer = (state=[], action) => {
   switch (action.type) {
     case 'ADD_HOBBY':
@@ -75,10 +87,27 @@ const hobbiesReducer = (state=[], action) => {
     case 'REMOVE_HOBBY':
       return state.filter(hobby => hobby.id !== action.id)
     default: return state
-
+  }
+}
+//actions
+const addHobby = (id, hobby) => {
+  return {
+    type: 'ADD_HOBBY',
+    id,
+    hobby
   }
 }
 
+const removeHobby = (id) => {
+  return {
+    type: 'REMOVE_HOBBY',
+    id
+  }
+
+}
+
+// Movies reducer and action generators
+//-----------------------------------
 const moviesReducer = (state=[], action) => {
   switch (action.type) {
     case 'ADD_MOVIE':
@@ -94,6 +123,23 @@ const moviesReducer = (state=[], action) => {
       return state.filter(movie => movie.id !== action.id)
     default: return state
 
+  }
+}
+
+// actions
+const addMovie = (id, title, genere) => {
+  return {
+    type: 'ADD_MOVIE',
+    id,
+    title,
+    genere
+  }
+}
+
+const removeMovie = (id) => {
+  return {
+    type: 'REMOVE_MOVIE',
+    id
   }
 }
 
@@ -118,49 +164,12 @@ const unsubsribe = store.subscribe(() => {
 const currentState = store.getState();
 console.log('currentState', currentState);
 
-const action = {
-  type:'CHANGE_NAME',
-  name: 'new name'
-}
-const newAction = {
-  type:'CHANGE_NAME',
-  name: 'latest name'
-}
 
-const addMovie = {
-  type: 'ADD_MOVIE',
-  id: 1,
-  title: 'Volvere',
-  genere: 'Drama'
-}
-
-const addMovie2 = {
-  type: 'ADD_MOVIE',
-  id: 2,
-  title: 'Pulp Fiction',
-  genere: 'Action'
-}
-
-store.dispatch(action);
-store.dispatch({
-  type: 'ADD_HOBBY',
-  id:1,
-  hobby: 'running'
-});
-store.dispatch({
-  type: 'ADD_HOBBY',
-  id:2,
-  hobby: 'walking'
-});
-store.dispatch({
-  type: 'REMOVE_HOBBY',
-  id:2
-});
-store.dispatch(addMovie);
-store.dispatch(newAction);
-store.dispatch(addMovie2);
-store.dispatch({
-  type: 'REMOVE_MOVIE',
-  id:1
-})
-console.log(store);
+store.dispatch(changeName("new name"));
+store.dispatch(addHobby(1, 'running'));
+store.dispatch(addHobby(2, 'walking'));
+store.dispatch(removeHobby(1));
+store.dispatch(addMovie(1, 'Volvere', 'Drama'));
+store.dispatch(changeName("latest nameeeee"));
+store.dispatch(addMovie(2, 'Pulp Fiction', 'Action'));
+store.dispatch(removeMovie(1));
