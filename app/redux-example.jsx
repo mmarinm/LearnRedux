@@ -10,7 +10,7 @@ const stateDefault = {
 }
 
 
-const reducer = (state = stateDefault, action) => {
+const oldRseducer = (state = stateDefault, action) => {
   switch(action.type) {
     case 'CHANGE_NAME':
       return {
@@ -53,6 +53,56 @@ const reducer = (state = stateDefault, action) => {
       default:  return state;
   }
 };
+
+const nameReducer = (state='Anonymous', action) => {
+  switch(action.type) {
+    case 'CHANGE_NAME':
+      return action.name;
+    default: return state
+  }
+}
+
+const hobbiesReducer = (state=[], action) => {
+  switch (action.type) {
+    case 'ADD_HOBBY':
+      return [
+        ...state,
+        {
+          id: action.id,
+          hobby: action.hobby
+        }
+      ]
+    case 'REMOVE_HOBBY':
+      return state.filter(hobby => hobby.id !== action.id)
+    default: return state
+
+  }
+}
+
+const moviesReducer = (state=[], action) => {
+  switch (action.type) {
+    case 'ADD_MOVIE':
+      return [
+        ...state,
+        {
+          id: action.id,
+          title: action.title,
+          genere: action.genere
+        }
+      ]
+    case 'REMOVE_MOVIE':
+      return state.filter(movie => movie.id !== action.id)
+    default: return state
+
+  }
+}
+
+
+const reducer = redux.combineReducers({
+  name: nameReducer,
+  hobbies: hobbiesReducer,
+  movie: moviesReducer
+})
 
 const store = redux.createStore(reducer, redux.compose(
   window.devToolsExtension ? window.devToolsExtension() : f => f
@@ -113,3 +163,4 @@ store.dispatch({
   type: 'REMOVE_MOVIE',
   id:1
 })
+console.log(store);
